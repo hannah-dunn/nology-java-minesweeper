@@ -26,6 +26,12 @@ public class Minesweeper {
 	static boolean gameWon, gameLost;
 	static Scanner sc = new Scanner(System.in);
 	
+	// variables are declared and initialized
+	// scanner class object reads the input from users 
+	
+	
+	// grid size method - bonus of setting difficulty
+	// using a switch case to determine how big grid will be printed 
 	private static void grid_size(int difficulty) {
 		switch (difficulty) {
 		case 1:
@@ -51,21 +57,23 @@ public class Minesweeper {
 		grid = new char[rows][columns];
 	}
 			
-	
+	// method
+	// initializing this method makes the grid with empty cells
 	private static void initializedGrid() {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				grid[i][j] = '-';
+				grid[i][j] = '-'; // placeholder for the empty cell
 			}
 		}
-		revealed = new boolean[rows][columns];
-		remainingCells = rows * columns - mines;
+		revealed = new boolean[rows][columns]; // this starts/initializes the revealed array
+		remainingCells = rows * columns - mines; // this calculates how many cells need to be revealed still
 	}
 	
+	// starts with zero mines, while there are no mines
 	private static void placeMines() {
 		int minesPlaced = 0;
-		while (minesPlaced < mines) {
-			int row = (int)(Math.random() * rows);
+		while (minesPlaced < mines) { 
+			int row = (int)(Math.random() * rows); //randomly generates and randomly places mines in grid
 			int col = (int)(Math.random() * columns);
 			if (grid[row][col] != 'M') {
 				grid[row][col] = 'M';
@@ -75,7 +83,9 @@ public class Minesweeper {
 	}
 	
 	
-	private static void calculateAdjacentMines() {
+	// then have to calculate the adjacent mines 
+	// this method iterates over my grid
+	private static void calculateAdjacentMines() { // for each cell, adjacent numbers and mies are calculated
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				if (grid[i][j] != 'M') {
@@ -95,22 +105,23 @@ public class Minesweeper {
 		}
 	}
 
-	
+	// this method checks if the user inputed numbers are a valid cell within the grid
 	private static boolean isValidCell(int row, int col) { 
 		   return row >= 0 && row < rows && col >= 0 && col < columns;
 		}
 	
 	
+	// this method displays the current game in the console, printing all the rows and columns
 	private static void printGrid() {
 		System.out.print("     ");
 		for (int j = 0; j < columns; j++) {
-			System.out.printf(" %3s", j);
-		}
-		System.out.println();
+			System.out.printf("    %3s", j); // this is the line that doesn't align
+		}					// % part of string that will be replaced by formatted argument, 3 specifies minimum width
+		System.out.println(); // s specifies the argument is a string
 		for (int i = 0; i < rows; i++) {
-			System.out.print("\t" + i);
+			System.out.print("\t" + i);  // horizontal tab
 			for (int j = 0; j < columns; j++) {
-				if (grid[i][j] == 'F') {
+				if (grid[i][j] == 'F') { // flagged cell
 					System.out.printf("\tF");
 				} else if (revealed[i][j]) {
 					if (grid[i][j] == '-') {
@@ -125,32 +136,29 @@ public class Minesweeper {
 			System.out.println();
 		}
 	}
-	// fix the spacing of the columns here
 	
 	
 	
+	// reveals the selected cell
 	private static void revealCell(int row, int col) {
 		   if (!isValidCell(row, col) || revealed[row][col]) {
 		       return;
 		   }
 		   revealed[row][col] = true;
 		   remainingCells--;
-		   if (grid[row][col] == '-') {
-		       for (int x = -1; x <= 1; x++) {
-		           for (int y = -1; y <= 1; y++) {
-		               revealCell(row + x, col + y);
+		  
+		               revealCell(row, col);
 		           }
-		       }
-		   }
-		}
 	
+// removed the bit of revealCell that was revealed the big space if you hit an empty patch
+// it was calculating if the cells around it were '-' cells, aka empty, then would reveal 	
 	
 	private static void revealAllCells() {
 		   for (int i = 0; i < rows; i++) {
 		       for (int j = 0; j < columns; j++) {
 		           revealed[i][j] = true;
 		       }
-		   }
+		   } // reveals all the cells at once for game over
 		}
 	
 	private static void getPlayerMove() { 
@@ -158,11 +166,11 @@ public class Minesweeper {
 		   move[0] = sc.nextInt();
 		   System.out.print("Please enter column number: ");
 		   move[1] = sc.nextInt();
-		}
+		} // uses the scanner to get the users input
 	
 	
-	
-	
+	// makes the game loop! initializes, and after the first move by player
+	// places the mines
 	public static void play() {
 		   initializedGrid(); 
 		   printGrid();
@@ -172,7 +180,7 @@ public class Minesweeper {
 		   placeMines();
 		   calculateAdjacentMines();
 		   while (!gameWon && !gameLost) {
-		       if (grid[row][col] == 'M') { 
+		       if (grid[row][col] == 'M') { // checks if a mine has been stepped on
 		           gameLost = true;
 		           revealAllCells();
 		           printGrid();
@@ -202,7 +210,7 @@ public class Minesweeper {
 		           if (grid[i][j] != 'M' && !revealed[i][j]) {
 		               return false;
 		           }
-		       }
+		       } // verifies if all non-mine cells have been revealed
 		   }
 		return false;
 	}
@@ -213,7 +221,7 @@ public class Minesweeper {
 		   System.out.println("\n----MENU---- ");
 		   System.out.println(" 1. Easy\n 2. Hard\n 3. Custom\n");
 		   System.out.println("\nPlease enter a number to choose the difficulty: ");
-		   int difficulty = sc.nextInt();
+		   int difficulty = sc.nextInt(); //scans users input for difficulty method
 		   grid_size(difficulty);
 		   play();
 		}
