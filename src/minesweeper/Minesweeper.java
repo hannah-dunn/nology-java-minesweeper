@@ -45,7 +45,7 @@ public class Minesweeper {
 			mines = 40;
 			break;
 		case 3:
-			System.out.println("Set own difficulty. Please enter the desired number of rows, columns, and mines: \n");
+			System.out.println("Set own difficulty. Please enter desired rows, columns and mines as three seperate inputs: \n");
 			rows = sc.nextInt();
 			columns = sc.nextInt();
 			mines = sc.nextInt();
