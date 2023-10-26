@@ -122,7 +122,7 @@ public class Minesweeper {
 			System.out.print("\t" + i);  // horizontal tab
 			for (int j = 0; j < columns; j++) {
 				if (grid[i][j] == 'F') { // flagged cell
-					System.out.printf("\tF");
+					System.out.printf("\tF"); // tabs the flagged cell
 				} else if (revealed[i][j]) {
 					if (grid[i][j] == '-') {
 						System.out.print("\t0");
@@ -158,7 +158,7 @@ public class Minesweeper {
 		       for (int j = 0; j < columns; j++) {
 		           revealed[i][j] = true;
 		       }
-		   } // reveals all the cells at once for game over
+		   } // reveals all the cells at once for game over/finished game
 		}
 	
 	private static void getPlayerMove() { 
@@ -222,7 +222,7 @@ public class Minesweeper {
 		   System.out.println(" 1. Easy\n 2. Hard\n 3. Custom\n");
 		   System.out.println("\nPlease enter a number to choose the difficulty: ");
 		   int difficulty = sc.nextInt(); //scans users input for difficulty method
-		   grid_size(difficulty);
+		   grid_size(difficulty); //calls the method right
 		   play();
 		}
 
